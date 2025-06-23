@@ -1,20 +1,26 @@
 package com.cptm.backend.login.controller;
 
+import com.cptm.backend.login.dto.LoginRequest;
+import com.cptm.backend.login.dto.LoginResponse;
 
+import jakarta.validation.Valid;
+
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
 public class LoginController {
 
- @PostMapping("/login")
- public Map<String, String> login(@RequestBody Map<String, String> body) {
-     String email = body.get("email");
-     if (email != null && email.toLowerCase().endsWith("@crystalenproject.com")) {
-         return Map.of("message", "Firma Crystalen Project TM pozdrawia !");
-     } else {
-         return Map.of("message", "You are not registered in company database");
-     }
- }
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest request) {
+        String email = request.getEmail();
+        if (email.toLowerCase().endsWith("@crystalenproject.com")) {
+            return ResponseEntity.ok(new LoginResponse("Firma Crystalen Project TM pozdrawia !"));
+        } else {
+            return ResponseEntity
+                .status(401)
+                .body(new LoginResponse("You are not registered in company database"));
+        }
+    }
 }
