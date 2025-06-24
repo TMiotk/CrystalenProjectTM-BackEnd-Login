@@ -3,36 +3,48 @@ package com.cptm.backend.login.controller;
 import com.cptm.backend.login.dto.LoginRequest;
 import com.cptm.backend.login.dto.LoginResponse;
 import com.cptm.backend.login.service.LoginService;
+import com.cptm.backend.security.JwtUtil;
 
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
 public class LoginController {
 
-    private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
-
     private final LoginService loginService;
+    private final AuthenticationManager authenticationManager;
+    private final JwtUtil jwtUtil;
 
-    public LoginController(LoginService loginService) {
+    public LoginController(LoginService loginService,
+                           AuthenticationManager authenticationManager,
+                           JwtUtil jwtUtil) {
         this.loginService = loginService;
+        this.authenticationManager = authenticationManager;
+        this.jwtUtil = jwtUtil;
     }
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest request) {
-        String email = request.getEmail() != null ? request.getEmail().trim().toLowerCase() : "";
-        logger.info("Login attempt for email: {}", email);
+        try {
+            Authentication auth = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
+            );
+            SecurityContextHolder.getContext().setAuthentication(auth);
 
-        if (loginService.isCompanyEmail(email)) {
-            return ResponseEntity.ok(new LoginResponse(LoginService.SUCCESS_MESSAGE));
-        } else {
-            return ResponseEntity
-                .status(403)
-                .body(new LoginResponse(LoginService.FAILURE_MESSAGE));
+            String token = jwtUtil.generateToken(request.getEmail());
+            long expirationTime = System.currentTimeMillis() + 3600_000; // 1h w ms
+            return ResponseEntity.ok(new LoginResponse("Login successful", token, request.getEmail(), expirationTime));
+
+        } catch (Exception e) {
+            return ResponseEntity.status(401).body(new LoginResponse("Invalid credentials"));
         }
     }
 }
