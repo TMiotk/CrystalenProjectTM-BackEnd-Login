@@ -36,7 +36,7 @@ public class SecurityConfig {
     @Bean
     public UserDetailsService users() {
         return new InMemoryUserDetailsManager(
-            User.withUsername("admin@company.com")
+            User.withUsername("admin@crystalenproject.com")
                 .password("{noop}admin123")
                 .roles("USER")
                 .build()
