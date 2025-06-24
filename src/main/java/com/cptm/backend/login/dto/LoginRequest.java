@@ -1,3 +1,7 @@
+// Copyright © Tomasz Miotk, Crystalen Project TM.
+// This code is proprietary and for viewing purposes only.
+// Copying, editing, or distributing any part of this code is strictly prohibited without explicit permission from the author.
+
 package com.cptm.backend.login.dto;
 
 import jakarta.validation.constraints.Email;

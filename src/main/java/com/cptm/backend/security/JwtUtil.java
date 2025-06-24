@@ -1,10 +1,12 @@
-package com.cptm.backend.security;
+// Copyright © Tomasz Miotk, Crystalen Project TM.
+// This code is proprietary and for viewing purposes only.
+// Copying, editing, or distributing any part of this code is strictly prohibited without explicit permission from the author.
 
+package com.cptm.backend.security;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Component;
-
 import java.security.Key;
 import java.util.Date;
 

@@ -1,13 +1,14 @@
+// Copyright © Tomasz Miotk, Crystalen Project TM.
+// This code is proprietary and for viewing purposes only.
+// Copying, editing, or distributing any part of this code is strictly prohibited without explicit permission from the author.
+
 package com.cptm.backend.login.controller;
 
 import com.cptm.backend.login.dto.LoginRequest;
 import com.cptm.backend.login.dto.LoginResponse;
 import com.cptm.backend.login.service.LoginService;
 import com.cptm.backend.security.JwtUtil;
-
 import jakarta.validation.Valid;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,14 +20,13 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api")
 public class LoginController {
 
-    private final LoginService loginService;
     private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtUtil;
 
     public LoginController(LoginService loginService,
                            AuthenticationManager authenticationManager,
                            JwtUtil jwtUtil) {
-        this.loginService = loginService;
+      
         this.authenticationManager = authenticationManager;
         this.jwtUtil = jwtUtil;
     }

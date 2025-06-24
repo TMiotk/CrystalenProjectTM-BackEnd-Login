@@ -1,3 +1,7 @@
+// Copyright © Tomasz Miotk, Crystalen Project TM.
+// This code is proprietary and for viewing purposes only.
+// Copying, editing, or distributing any part of this code is strictly prohibited without explicit permission from the author.
+
 package com.cptm.backend.security;
 
 import org.springframework.context.annotation.Configuration;
@@ -11,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
