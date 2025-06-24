@@ -1,6 +1,6 @@
 package com.cptm.backend.security;
 
-import org.apache.camel.Configuration;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
